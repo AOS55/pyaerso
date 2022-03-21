@@ -124,9 +124,9 @@ impl PyAeroBody {
     }
     
     #[getter]
-    fn get_airstate(&self) -> PyResult<[f64;4]> {
+    fn get_airstate(&self) -> PyResult<[f64;7]> {
         let airstate = self.aerobody.as_ref().unwrap().get_airstate();
-        Ok([airstate.alpha, airstate.beta, airstate.airspeed, airstate.q])
+        Ok([airstate.alpha, airstate.beta, airstate.airspeed, airstate.q, airstate.u, airstate.v, airstate.w])
     }
     
     fn step(&mut self, forces_py: Vec<PyRef<PyForce>>, torques_py: Vec<PyRef<PyTorque>>, delta_t: f64) {

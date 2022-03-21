@@ -12,7 +12,7 @@ pub(crate) struct PyAeroEffect {
 
 impl AeroEffect<Vec<f64>> for PyAeroEffect {
     fn get_effect(&self, airstate: AirState, rates: Vector3, inputstate: &Vec<f64>) -> (Force,Torque) {
-        let airstate_py = [airstate.alpha,airstate.beta,airstate.airspeed,airstate.q];
+        let airstate_py = [airstate.alpha,airstate.beta,airstate.airspeed,airstate.q, airstate.u, airstate.v, airstate.w];
         let rates_py = [rates.x,rates.y,rates.z];
         
         Python::with_gil(|py| {
@@ -106,9 +106,9 @@ impl PyAffectedBody {
     }
     
     #[getter]
-    fn get_airstate(&self) -> PyResult<[f64;4]> {
+    fn get_airstate(&self) -> PyResult<[f64;7]> {
         let airstate = self.affectedbody.get_airstate();
-        Ok([airstate.alpha, airstate.beta, airstate.airspeed, airstate.q])
+        Ok([airstate.alpha, airstate.beta, airstate.airspeed, airstate.q, airstate.u, airstate.v, airstate.w])
     }
     
 }
